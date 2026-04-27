@@ -1,9 +1,9 @@
 #include <mlx.h>
 #include "fractol.h"
-#include <stdlib.h>
+#include "libft/libft.h"
 
-#include <stdio.h>
-void	paint(int color, int x, int y, t_data *data)
+
+void	paint(int color, int x, int y, t_image_data *data)
 {
 	char	*dst;
 
@@ -17,22 +17,74 @@ int	close()
 	return (1);
 }
 
-#include <stdio.h>
-int main()
+double ft_atod_julia(char *str)
+{
+	size_t	i;
+	double	num;
+	double	div;
+	int		neg;
+
+	i = 0;
+	neg = 1;
+	if (str[i] == '-' && ++i)
+		neg = -1;
+	num = 0.0;
+	while (str[i] >= '0' && str[i] <= '9' && str[i] != '.')
+		num = num * 10.0 + (str[i++] - '0');
+	if (str[i] == '.')
+		i++;
+	div = 1.0;
+	while (str[i] >= '0' && str[i] <= '9')
+	{
+		num = num * 10.0 + (str[i++] - '0');
+		div *= 10.0;
+	}
+	num = (num / div) * neg;
+	if (num < -2.0 || num > 2.0)
+		print_commands();
+	return (num);
+}
+
+void	print_commands()
+{
+	ft_putendl_fd("Please call fractol with these parameters:", 1);
+	ft_putendl_fd("\tMandelbrot:", 1);
+	ft_putendl_fd("\t\t/client 0", 1);
+	ft_putendl_fd("\tJulia set:", 1);
+	ft_putendl_fd("\t\t/client 1 [real number] [imaginary number]", 1);
+	ft_putendl_fd("The numbers for the julia set have to be between -2 and 2", 1);
+	exit(0);
+}
+
+void	parse_args(char ** input, t_image_data *data)
+{
+	if (input[1][0] == '0' && !input[2])
+		data->mode = 0;
+	else if (input[1][0] == '1' && input[2] && input[3] && input[4])
+	{
+		data->mode = 1;
+		data->julia.real = ft_atod_julia(input[2]);
+		data->julia.imaginary = ft_atod_julia(input[3]);
+	}
+	else
+		print_commands();
+}
+
+int main(int num, char **args)
 {
 	void 	*mlx;
 	void	*window;
-	t_data	img;
+	t_image_data	img;
 
+	if (num < 2)
+		print_commands();
+	parse_args(args, &img);
 	mlx = mlx_init();
-	window = mlx_new_window(mlx, 500, 250, "Hello world!");
-	img.img = mlx_new_image(mlx, 500, 250);
+	window = mlx_new_window(mlx, g_width, g_heigth, "Enjoy your trip");
+	img.img = mlx_new_image(mlx, g_width, g_heigth);
 	img.addr = mlx_get_data_addr(img.img, &img.bits_per_pixel, &img.line_length, &img.endian);
-	printf("Go to loop\n");
-	printf("Line length: %i, Bits per line: %i", img.line_length, img.bits_per_pixel);
-	t_imaginary i_num ;{i_num.real = 0; i_num.imaginary = 0;};
-	update_image(&img, 0, extract_color(0x00FF0000), i_num);
-	printf("Exited loop\n");
+	t_imaginary i_num ;{i_num.real = -0.6; i_num.imaginary = 0.6;};
+	update_image(&img, 1, extract_color(0x00FF0000), i_num);
 	mlx_put_image_to_window(mlx, window, img.img, 0, 0);
 	mlx_hook(window, 17, 1l << 0, close, 0);
 	mlx_loop(mlx);

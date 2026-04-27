@@ -18,11 +18,10 @@ float	absolute_imaginary(float real,float imag)
 {
 	return (sqrt(real * real + imag * imag));
 }
-#include <stdio.h>
-size_t	mandelbrot(t_imaginary z, float x, float y, size_t iteration)
+
+size_t	mandelbrot(t_imaginary z, const double x, const double y, size_t iteration)
 {
-	printf("Iteration %zu, x: %f, y: %f\n", iteration, z.real, z.imaginary);
-	if (iteration >= 100 || absolute_imaginary(z.real, z.imaginary) > 2)
+	if (iteration >= 1000 || absolute_imaginary(z.real, z.imaginary) > 2.0)
 		return (iteration);
 	
 	square_imag(&z);
@@ -32,7 +31,7 @@ size_t	mandelbrot(t_imaginary z, float x, float y, size_t iteration)
 	return (mandelbrot(z, x, y, iteration));
 }
 /*
-#include <stdio.h>
+
 int main ()
 {
 	t_imaginary z;
@@ -40,5 +39,4 @@ int main ()
 	z.real = 0;
 	printf("%zu iterations\n", mandelbrot(z, 0, 0, 0));
 	printf("%zu iterations\n", mandelbrot(z, 0, 50, 0));
-	
 }*/
