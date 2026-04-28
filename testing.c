@@ -40,7 +40,7 @@
 #include <math.h>
 #include "libft/libft.h"
 #include <stdio.h>
-//double ft_atod_julia(char *str)
+//double check_back(char *str)
 //{
 //	long	significand;
 //	int		exponent;
@@ -71,5 +71,5 @@
 
 //int main(int num, char **args){
 //	(void)num;
-//	printf("Double %s: %e\n", args[1], check_double(args[1]));
+//	printf("Double %s: %e\n", args[1], ft_atod_julia(args[1]));
 //}

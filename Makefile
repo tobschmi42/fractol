@@ -1,7 +1,7 @@
 CC=cc
 CFLAGS=-Wextra -Wall -Werror -MMD -MP
 
-SRCS = main.c colors.c mandelbrot.c atod.c
+SRCS = main.c image.c math.c atod.c keybinds.c
 OBJS = $(SRCS:.c=.o)
 DEPS = $(SRCS:.c=.d)
 LIBFT = ./libft/libft.a
@@ -19,7 +19,7 @@ $(NAME): $(OBJS) $(LIBFT)
 	$(CC) $(CFLAGS) $^ -o $@ -lmlx -lXext -lX11 -lm
 
 %.o: %.c $(DPNDC)
-	$(CC) $(CFLAGS) -c $< -O1 -o $@
+	$(CC) $(CFLAGS) -c $< -O3 -o $@
 
 clean:
 	rm -f $(OBJS) $(DEPS)
