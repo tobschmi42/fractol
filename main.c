@@ -1,4 +1,5 @@
 #include <mlx.h>
+#include <math.h>
 #include "fractol.h"
 #include "libft/libft.h"
 
@@ -17,32 +18,35 @@ int	close()
 	return (1);
 }
 
+#include <stdio.h>
 double ft_atod_julia(char *str)
 {
-	size_t	i;
-	double	num;
-	double	div;
-	int		neg;
+	long	significand;
+	int		exponent;
+	size_t	runner;
 
-	i = 0;
-	neg = 1;
-	if (str[i] == '-' && ++i)
-		neg = -1;
-	num = 0.0;
-	while (str[i] >= '0' && str[i] <= '9' && str[i] != '.')
-		num = num * 10.0 + (str[i++] - '0');
-	if (str[i] == '.')
-		i++;
-	div = 1.0;
-	while (str[i] >= '0' && str[i] <= '9')
+	exponent = 0;
+	runner = 0;
+	significand = 0;
+	if (ft_isdigit(str[runner]))
+		significand = str[runner++] - '0';
+	if (str[runner] == '.')
+		++runner;
+	while (str[runner++] == '0')
 	{
-		num = num * 10.0 + (str[i++] - '0');
-		div *= 10.0;
+		if (exponent < 1 - (pow(2,11) / 2))
+			print_commands();
+		exponent--;
 	}
-	num = (num / div) * neg;
-	if (num < -2.0 || num > 2.0)
-		print_commands();
-	return (num);
+	while (ft_isdigit(str[runner]))
+	{
+		significand = (significand * 10) + (str[runner] - '0');
+		if (significand > pow(2, 53))
+			print_commands();
+		++runner;
+	}
+	printf("Mantisse: %ld, Exponent: %i\n", significand, exponent);
+	return (significand * pow(10, exponent));
 }
 
 void	print_commands()
@@ -70,22 +74,22 @@ void	parse_args(char ** input, t_image_data *data)
 		print_commands();
 }
 
-int main(int num, char **args)
-{
-	void 	*mlx;
-	void	*window;
-	t_image_data	img;
+//int main(int num, char **args)
+//{
+//	void 	*mlx;
+//	void	*window;
+//	t_image_data	img;
 
-	if (num < 2)
-		print_commands();
-	parse_args(args, &img);
-	mlx = mlx_init();
-	window = mlx_new_window(mlx, g_width, g_heigth, "Enjoy your trip");
-	img.img = mlx_new_image(mlx, g_width, g_heigth);
-	img.addr = mlx_get_data_addr(img.img, &img.bits_per_pixel, &img.line_length, &img.endian);
-	t_imaginary i_num ;{i_num.real = -0.6; i_num.imaginary = 0.6;};
-	update_image(&img, 1, extract_color(0x00FF0000), i_num);
-	mlx_put_image_to_window(mlx, window, img.img, 0, 0);
-	mlx_hook(window, 17, 1l << 0, close, 0);
-	mlx_loop(mlx);
-}
+//	if (num < 2)
+//		print_commands();
+//	parse_args(args, &img);
+//	mlx = mlx_init();
+//	window = mlx_new_window(mlx, g_width, g_heigth, "Enjoy your trip");
+//	img.img = mlx_new_image(mlx, g_width, g_heigth);
+//	img.addr = mlx_get_data_addr(img.img, &img.bits_per_pixel, &img.line_length, &img.endian);
+//	t_imaginary i_num ;{i_num.real = -0.6; i_num.imaginary = 0.6;};
+//	update_image(&img, 1, extract_color(0x00FF0000), i_num);
+//	mlx_put_image_to_window(mlx, window, img.img, 0, 0);
+//	mlx_hook(window, 17, 1l << 0, close, 0);
+//	mlx_loop(mlx);
+//}
