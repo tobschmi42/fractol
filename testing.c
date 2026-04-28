@@ -69,6 +69,7 @@
 //	return (significand * pow(10, -exponent));
 //}
 
-int main(){
-	printf("Double 0.0000034: %f\n", ft_atod_julia("0.0000034"));
-}
+//int main(int num, char **args){
+//	(void)num;
+//	printf("Double %s: %e\n", args[1], check_double(args[1]));
+//}

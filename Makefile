@@ -1,7 +1,7 @@
 CC=cc
 CFLAGS=-Wextra -Wall -Werror -MMD -MP
 
-SRCS = main.c colors.c mandelbrot.c testing.c
+SRCS = main.c colors.c mandelbrot.c atod.c
 OBJS = $(SRCS:.c=.o)
 DEPS = $(SRCS:.c=.d)
 LIBFT = ./libft/libft.a

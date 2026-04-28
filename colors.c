@@ -44,10 +44,10 @@ void update_mandelbrot(t_image_data *data, t_color color)
 			hue = get_color(color, extract_color(0x0000FF00),
 							mandelbrot(x_y, x_y.real, x_y.imaginary, 0));
 			paint(hue, pixel.real, pixel.imaginary, data);
-			//x_y.real += 4.0 / g_width;
+			x_y.real += 4.0 / G_WIDTH;
 			++pixel.real;
 		}
-		//x_y.imaginary += 4.0 / g_heigth;
+		x_y.imaginary += 4.0 / G_HEIGHT;
 		++pixel.imaginary;
 	}
 }
@@ -69,10 +69,10 @@ void update_julia(t_image_data *data, t_color color, const t_imaginary set)
 			hue = get_color(color, extract_color(0x0000FF00),
 							mandelbrot(x_y, set.real, set.imaginary, 0));
 			paint(hue, pixel.real, pixel.imaginary, data);
-			x_y.real += 4.0 / //g_width;
+			x_y.real += 4.0 / G_WIDTH;
 			++pixel.real;
 		}
-		x_y.imaginary += 4.0 / //g_heigth;
+		x_y.imaginary += 4.0 / G_HEIGHT;
 		++pixel.imaginary;
 	}
 }
